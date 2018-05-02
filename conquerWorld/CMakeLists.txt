@@ -7,3 +7,4 @@ set(SRC conquerWorld.c)
 set(HEADER conquerWorld.h)
 
 add_library(conquerWorld ${SRC} ${HEADERS})
+target_link_libraries(conquerWorld aziotsharedutil)
