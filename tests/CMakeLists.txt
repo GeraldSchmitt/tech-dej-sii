@@ -9,5 +9,5 @@ project(conquerTest)
 
 add_executable(conquerTest main.c test.c)
 
-target_link_libraries(conquerTest ctest conquerWorld)
+target_link_libraries(conquerTest ctest umock_c conquerWorld)
 

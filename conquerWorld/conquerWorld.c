@@ -13,10 +13,12 @@ int frobnicate()
 		printf("Init success!\n");
 		
 		HTTPAPI_Deinit();
+		return 43;
 	}
 	else
 	{
 		printf("Init fail...\n");
+		return 0;
 	}
 	return 43;
 }
