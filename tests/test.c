@@ -15,17 +15,6 @@ CTEST_SUITE_INITIALIZE()
 	REGISTER_UMOCK_ALIAS_TYPE(HTTPAPI_RESULT, int);
 }
 
-CTEST_FUNCTION(Test1)
-{
-    // arrange
-
-    // act
-    int x = 2 * 21;
-
-    // assert
-    CTEST_ASSERT_ARE_EQUAL(int, 42, x);
-}
-
 CTEST_FUNCTION(TestFrobnicate_SUCCEEDS)
 {
 	// arrange
