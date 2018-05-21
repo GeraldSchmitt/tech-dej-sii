@@ -1,4 +1,5 @@
 #include "umock_c.h"
+#include "umock_c_negative_tests.h"
 
 #define ENABLE_MOCKS
 #include "azure_c_shared_utility/httpapi.h"
@@ -13,6 +14,9 @@ CTEST_SUITE_INITIALIZE()
 {
 	umock_c_init(NULL);
 	REGISTER_UMOCK_ALIAS_TYPE(HTTPAPI_RESULT, int);
+
+	REGISTER_GLOBAL_MOCK_RETURN(HTTPAPI_Init, HTTPAPI_OK);
+	REGISTER_GLOBAL_MOCK_FAIL_RETURN(HTTPAPI_Init, HTTPAPI_ERROR);
 }
 
 CTEST_FUNCTION_INITIALIZE()
@@ -56,6 +60,27 @@ CTEST_FUNCTION(TestFrobnicate_expected_calls)
 
 	// assert
 	CTEST_ASSERT_ARE_EQUAL(char_ptr, umock_c_get_actual_calls(), umock_c_get_expected_calls());
+}
+
+CTEST_FUNCTION(TestFrobnicate_negative_test)
+{
+	// arrange
+	umock_c_negative_tests_init();
+	STRICT_EXPECTED_CALL(HTTPAPI_Init());
+
+	umock_c_negative_tests_snapshot();
+
+	for (unsigned int i = 0; i < umock_c_negative_tests_call_count(); i++)
+	{
+		umock_c_negative_tests_reset();
+		umock_c_negative_tests_fail_call(i);
+
+		int ret = frobnicate();
+
+		CTEST_ASSERT_ARE_EQUAL(int, 0, ret);
+	}
+
+	umock_c_negative_tests_deinit();
 }
 
 CTEST_END_TEST_SUITE(SimpleTestSuiteOneTest)
